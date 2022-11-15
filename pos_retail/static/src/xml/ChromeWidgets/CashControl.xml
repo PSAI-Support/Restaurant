@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="CashControl" owl="1">
+        <div class="ticket-button" t-on-click="onClick">
+            <i class="fa fa-money" aria-hidden="true"></i>
+            <span>Cash Management</span>
+        </div>
+    </t>
+
+    <t t-inherit="point_of_sale.CashMoveButton" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('cash-move-button')]" position="replace">
+            <div class="ticket-button" t-on-click="onClick">
+                <i class="fa fa-money" aria-hidden="true"></i>
+                <span>Cash In/Out</span>
+            </div>
+        </xpath>
+    </t>
+
+</templates>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="TableTransfer">
+        <div class="pos-receipt printer-label">
+            <div class="pos-receipt-title">
+                *** CHUYỂN BÀN ***
+            </div>
+            <br/>
+             <div class="pos-receipt-title" style="line-height: 30px">
+                <t t-esc="floor_from"/>
+                /
+                <t t-esc="table_from"/>
+                [ chuyển sang ]
+                <t t-esc="floor_to"/>
+                /
+                <t t-esc="table_to"/>
+            </div>
+            <br/>
+            <div class="receipt-line" t-if="user">
+                <span>
+                    Nhân viên :
+                </span>
+                <span t-esc="user" class="pos-receipt-right-align"/>
+            </div>
+            <br/>
+            <div class="receipt-line">
+                <span>
+                    Thời gian: <t t-esc="hours"/>
+                    :
+                    <t t-esc="minutes"/>
+                </span>
+            </div>
+            <br/>
+        </div>
+    </t>
+
+</templates>

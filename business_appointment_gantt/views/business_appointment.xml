@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="business_appointment_view_gantt" model="ir.ui.view">
+        <field name="name">business.appointment.view.gantt</field>
+        <field name="model">business.appointment</field>
+        <field name="arch" type="xml">
+            <gantt date_start="datetime_start"
+                   date_stop="datetime_end"
+                   default_scale="day"
+                   scales="day,week,month,year"
+                   color="resource_color"
+                   string="Appointments"
+                   thumbnails="{'resource_id': 'image_128', 'info_resource_id': 'image_128', 'resource_type_id': 'image_128', 'service_id': 'image_128', 'user_id': 'avatar_128', 'partner_id': 'avatar_128'}"
+                   display_unavailability="1"
+                   precision="{'day': 'hour:quarter', 'week': 'day:quarter', 'month': 'day:half', 'year': 'month:full'}"
+                   default_group_by="resource_id"
+                   create="0"
+                   disable_drag_drop="1"
+                   delete="0"
+                   edit="0"
+                >
+                <templates>
+                    <div t-name="gantt-popover">
+                        <div t-if="resource_type_id"><strong>Resource type — </strong> <t t-esc="resource_type_id[1]"/></div>
+                        <div t-if="resource_id"><strong>Resource — </strong> <t t-out="resource_id[1]"/></div>
+                        <div t-if="service_id"><strong>Service — </strong> <t t-out="service_id[1]"/></div>
+                        <div t-if="user_id"><strong>Responsible — </strong> <t t-out="user_id[1]"/></div>
+                        <div t-if="partner_id"><strong>Partner — </strong> <t t-esc="partner_id[1]"/></div>
+                        <div><t t-esc="userTimezoneStartDate.format('l LT ')"/><i class="fa fa-long-arrow-right" title="Arrow"/><t t-esc="userTimezoneStopDate.format(' l LT')"/></div>
+                    </div>
+                </templates>
+                <field name="resource_type_id"/>
+                <field name="resource_id"/>
+                <field name="info_resource_id"/>
+                <field name="service_id"/>
+                <field name="user_id"/>
+                <field name="partner_id"/>
+                <field name="resource_color"/>
+            </gantt>
+        </field>
+    </record>
+
+    <record id="business_appointment.business_appointment_action" model="ir.actions.act_window">
+        <field name="view_mode">appointment_calendar,tree,gantt,form</field>
+    </record>
+    <record id="business_appointment.business_appointment_action_from_partner" model="ir.actions.act_window">
+        <field name="view_mode">tree,appointment_calendar,gantt,form</field>
+    </record>
+    
+</odoo>

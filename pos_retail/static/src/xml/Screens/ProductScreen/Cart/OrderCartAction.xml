@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="OrderCartAction" owl="1">
+        <div class="subpads">
+            <div class="pos-cart">
+                <NumpadWidget activeMode="state.numpadMode"/>
+                <div class="cart-payment-box" t-if="!env.isMobile">
+                    <button class="button pay highlight"
+                            t-on-click="trigger('click-pay')">
+                        <t t-if="!env.pos.session.restaurant_order">
+                            <t t-if="!env.pos.config.replace_paid_button_to_assign">
+                                <span class="total-value">
+                                    PAID
+                                </span>
+                            </t>
+                            <t t-else="">
+                                <h1>
+                                    ASSIGN ORDER
+                                </h1>
+                            </t>
+                            <div class="shortcut-keyboard" t-if="!env.isMobile" style="width: 100%">
+                                <i class="fa fa-keyboard-o"/>
+                                (Enter)
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <i class="fa fa-check"/>
+                            PLACE
+                        </t>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

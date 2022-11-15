@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="ProductScreenCenterPaneHeader" owl="1">
+        <div class="checkout">
+            <div class="right-checkout">
+                <div class="rightpane-header-extend">
+                    <span class="breadcrumb right_button"
+                          title="UpdateTheme"
+                          t-on-click="UpdateTheme">
+                        <i class="fa fa-cog" aria-hidden="true"></i>
+                    </span>
+                    <span class="breadcrumb right_button"
+                          t-if="env.pos.config.update_client"
+                          title="Add new Customer"
+                          t-on-click="adNewCustomer">
+                        <i class="fa fa-user-plus" aria-hidden="true"></i>
+                    </span>
+                    <span class="breadcrumb right_button"
+                          t-if="client and env.pos.config.update_client"
+                          title="Update Customer Information"
+                          t-on-click.stop="editCustomer(client)">
+                        <i class="fa fa-edit" aria-hidden="true"></i>
+                    </span>
+                    <span class="breadcrumb right_button with-badge"
+                          t-att-badge="state.totalQuantities"
+                          t-att-class="{
+                            'highlight': !props.openCart
+                          }"
+                          title="Open Cart"
+                          t-on-click="trigger('open-cart')">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"/>
+                    </span>
+                    <span class="breadcrumb right_button"
+                          t-att-class="{
+                            'highlight': client,
+                            'disabled': !client
+                          }"
+                          title="Deselect Customer"
+                          t-on-click="trigger('remove-selected-customer')">
+                        <i class="fa fa-trash" aria-hidden="true"/>
+                    </span>
+                </div>
+                <div class="pos-search-bar">
+                    <div class="search search-customer">
+                        <span t-att-badge="state.countCustomers" class="with-badge search-icon"
+                              style="top: 10px; left: 10px"><i class="fa fa-search"></i></span>
+                        <span class="clear-icon"
+                              t-on-click="trigger('clear-search-customer')">
+                            <i aria-hidden="true" class="fa fa-times"/>
+                        </span>
+                        <input type="text"
+                               t-on-keydown="onKeydown"
+                               t-model="state.inputCustomer"
+                               placeholder="Search Customers ...(f4)" class="search-customer-direct"/>
+                        <div class="autocom-box"/>
+                    </div>
+                    <button class="button set-customer"
+                            t-att-class="{
+                                'decentered': isLongName,
+                                'highlight': isCustomerSet,
+                            }"
+                            t-on-click="trigger('click-customer')">
+                        <t t-if="!env.isMobile">
+                            <i class="fa fa-user" role="img" aria-label="Customer" title="Customer" />
+                        </t>
+                        <span>
+                            <t t-if="client">
+                                <t t-esc="client.name"/>
+                            </t>
+                            <t t-else="">
+                                Set Customer
+                            </t>
+                        </span>
+                    </button>
+                    <button class="button send-kitchen"
+                            t-att-class="addedClasses"
+                            t-on-click="clickSendToKitchen">
+                        <span class="with-badge" t-att-badge="countItemsNeedPrint">
+                            <i class="fa fa-cutlery" aria-hidden="true"></i>
+                        </span>
+                        <span>Send Kitchen</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

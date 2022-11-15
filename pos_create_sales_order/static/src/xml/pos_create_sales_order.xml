@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="pos_create_sales_order_template" inherit_id="point_of_sale.template" xml:space="preserve">
+
+    <t t-name="CreateSalesOrderButton"  owl="1">
+        <div class="control-button button confirm odoo-theme-color" id="create_sales_order">
+            <i class='fa fa-shopping-cart' />
+            Create Sales Order
+        </div>
+    </t>
+
+    
+</templates>
+  	
+  	

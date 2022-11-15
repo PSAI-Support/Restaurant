@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="pos_product_default_new_cart_form" model="ir.ui.view">
+            <field name="name">pos.product.default.new.cart.form</field>
+            <field name="model">pos.product.default.new.cart</field>
+            <field name="arch" type="xml">
+                <form string="Products automatic add to new cart">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="product_id"/>
+                            <field name="quantity"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="pos_product_default_new_cart_tree" model="ir.ui.view">
+            <field name="name">pos.product.default.new.cart.tree</field>
+            <field name="model">pos.product.default.new.cart</field>
+            <field name="arch" type="xml">
+                <tree string="Products automatic add to new cart">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="pos_product_default_new_cart_search" model="ir.ui.view">
+            <field name="name">pos.product.default.new.cart.filter</field>
+            <field name="model">pos.product.default.new.cart</field>
+            <field name="arch" type="xml">
+                <search string="Products automatic add to new cart">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_pos_product_default_new_cart">
+            <field name="name">Products Automatic add to New Cart</field>
+            <field name="res_model">pos.product.default.new.cart</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_action_pos_product_default_new_cart"
+                  action="action_pos_product_default_new_cart"
+                  parent="menu_product_operation"
+                  sequence="18"
+        />
+
+    </data>
+</odoo>

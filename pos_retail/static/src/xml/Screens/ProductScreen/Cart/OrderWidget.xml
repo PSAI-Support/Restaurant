@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="OrderWidget" t-inherit="point_of_sale.OrderWidget" t-inherit-mode="extension" owl="1">
+        <xpath expr="//OrderSummary" position="replace">
+            <OrderSummary/>
+        </xpath>
+        <xpath expr="//ul[hasclass('orderlines')]" position="replace">
+            <table class='summary-table'>
+                <colgroup>
+                    <col width='5%'/>
+                    <col width='70%'/>
+                    <col width='25%'/>
+                </colgroup>
+                <t t-foreach="orderlinesArray" t-as="orderline" t-key="orderline.id">
+                    <Orderline line="orderline"/>
+                </t>
+            </table>
+            <table class='summary-table' style="display: inline-table; width: 100%">
+                <colgroup>
+                    <col width='60%'/>
+                    <col width='30%'/>
+                </colgroup>
+                <tr class="receipt-line" t-if="!env.isMobile" style="cursor: unset">
+                    <td style="text-align: center">
+                        Receipt No: <t t-esc="env.pos.get_order()['name']"/>
+                    </td>
+                    <td style="text-align: center">
+                        Created at :<t t-esc="env.pos.get_order()['created_time']"/>
+                    </td>
+                </tr>
+            </table>
+        </xpath>
+    </t>
+
+</templates>

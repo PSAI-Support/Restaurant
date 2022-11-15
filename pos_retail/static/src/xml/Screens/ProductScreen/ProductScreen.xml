@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="ProductScreen" t-inherit="point_of_sale.ProductScreen" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('rightpane')]" position="replace"/>
+        <xpath expr="//div[hasclass('leftpane')]" position="replace">
+            <t t-if="env.session.config.cart_box_style == 'left'">
+                <!-- *************************************** -->
+                <!-- *************************************** -->
+                <!-- TODO: only display cart if state.screen is Products -->
+                <!-- *************************************** -->
+                <!-- *************************************** -->
+                <div class="leftpane left_01" t-if="!env.isMobile || state.mobile_pane === 'left' || state.cashControl"
+                     t-att-class="{
+                        'oe_hidden': !state.openCart and !state.cashControl
+                     }">
+                    <div id="livestream_scanner" t-if="env.isMobile">
+                        <div id="interactive" class="viewport"></div>
+                        <div class="camera_error"></div>
+                    </div>
+                    <OrderQuicklyAction/>
+                    <OrderWidget/>
+                    <t t-if="env.isMobile">
+                        <ProductScreenCenterPaneHeader
+                            showButtons="state.showButtons"
+                            t-if="!env.isMobile"
+                            openCart="state.openCart"
+                            controlButtons="controlButtons" client="client"/>
+                        <ProductScreenCenterPaneFeaturesButtons
+                                t-if="state.showButtons"
+                                controlButtons="controlButtons"/>
+                        <OrderCartAction
+                            showButtons="state.showButtons"/>
+                        <MobileOrderWidget pane="state.mobile_pane" t-on-switchpane="switchPane"/>
+                    </t>
+                </div>
+                <div class="centerpane" t-if="!env.isMobile || state.cashControl">
+                    <ProductScreenCenterPaneHeader
+                        showButtons="state.showButtons"
+                        t-if="!env.isMobile"
+                        openCart="state.openCart"
+                        controlButtons="controlButtons" client="client"/>
+                    <ProductScreenCenterPaneFeaturesButtons
+                            t-if="state.showButtons"
+                            controlButtons="controlButtons"/>
+                    <OrderCartAction
+                            showButtons="state.showButtons"/>
+
+                </div>
+                <div class="rightpane"
+                     t-if="(!env.isMobile || state.mobile_pane === 'right') and !state.cashControl"
+                     t-att-class="{
+                        'oe_hidden': state.cashControl
+                     }">
+                    <ProductsWidget t-if="!state.cashControl"/>
+                    <t t-if="env.isMobile">
+                        <MobileOrderWidget pane="state.mobile_pane" t-on-switchpane="switchPane"/>
+                    </t>
+                    <div class="placeholder-Base"/>
+                    <div class="block-screen" t-if="blockScreen">
+                        Return Mode is [On], Locked add products to cart. If you wanted Exchange cart, Please Click to button [Return Mode] on Dock Buttons (Buttom of Page)
+                    </div>
+                    <div class="placeholder-Base"/>
+                    <div id="livestream_scanner" t-if="!env.isMobile">
+                        <div id="interactive" class="viewport"></div>
+                        <div class="camera_error"></div>
+                    </div>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="rightpane"
+                     t-if="!env.isMobile || state.mobile_pane === 'right' || state.cashControl"
+                     t-att-class="{
+                        'oe_hidden': state.cashControl
+                     }">
+                    <ProductsWidget t-if="!state.cashControl"/>
+                    <t t-if="env.isMobile">
+                        <MobileOrderWidget pane="state.mobile_pane" t-on-switchpane="switchPane"/>
+                    </t>
+                    <div class="placeholder-Base"/>
+                    <div class="block-screen" t-if="blockScreen">
+                        Return Mode is [On], Locked add products to cart. If you wanted Exchange cart, Please Click to button [Return Mode] on Dock Buttons (Buttom of Page)
+                    </div>
+                    <div class="placeholder-Base"/>
+                    <div id="livestream_scanner" t-if="!env.isMobile">
+                        <div id="interactive" class="viewport"></div>
+                        <div class="camera_error"></div>
+                    </div>
+                </div>
+                <div class="centerpane" t-if="!env.isMobile || state.cashControl">
+                    <ProductScreenCenterPaneHeader
+                        showButtons="state.showButtons"
+                        t-if="!env.isMobile"
+                        openCart="state.openCart"
+                        controlButtons="controlButtons" client="client"/>
+                    <ProductScreenCenterPaneFeaturesButtons
+                            t-if="state.showButtons"
+                            controlButtons="controlButtons"/>
+                    <OrderCartAction
+                            showButtons="state.showButtons"/>
+
+                </div>
+                <div class="leftpane left_02" t-if="!env.isMobile || state.mobile_pane === 'left' || state.cashControl"
+                     t-att-class="{
+                        'oe_hidden': !state.openCart and !state.cashControl
+                     }">
+                    <div id="livestream_scanner" t-if="env.isMobile">
+                        <div id="interactive" class="viewport"></div>
+                        <div class="camera_error"></div>
+                    </div>
+                    <OrderQuicklyAction/>
+                    <OrderWidget/>
+                    <t t-if="env.isMobile">
+                        <ProductScreenCenterPaneHeader
+                            showButtons="state.showButtons"
+                            t-if="!env.isMobile"
+                            openCart="state.openCart"
+                            controlButtons="controlButtons" client="client"/>
+                        <ProductScreenCenterPaneFeaturesButtons
+                                t-if="state.showButtons"
+                                controlButtons="controlButtons"/>
+                        <OrderCartAction
+                            showButtons="state.showButtons"/>
+                        <MobileOrderWidget pane="state.mobile_pane" t-on-switchpane="switchPane"/>
+                    </t>
+                </div>
+            </t>
+        </xpath>
+        <xpath expr="//div[hasclass('screen-full-width')]" position="attributes">
+            <attribute name="t-att-class">{ 'display-list-features-button': allowDisplayListFeaturesButton}</attribute>
+        </xpath>
+    </t>
+
+</templates>

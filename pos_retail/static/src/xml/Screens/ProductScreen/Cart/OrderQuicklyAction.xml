@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="OrderQuicklyAction" owl="1">
+        <div class="order-quickly-action">
+            <span class="breadcrumb right_button"
+                  t-if="!env.isMobile"
+                  title="Show/Hide Features"
+                  t-on-click="trigger('show-buttons')">
+                <i class="fa fa-th" aria-hidden="true"></i>
+                F1
+            </span>
+            <span class="breadcrumb right_button"
+                title="Add Custom Sale"
+                t-if="env.pos.config.custom_sale and env.pos.config.custom_sale_product_id"
+                t-on-click="trigger('add-custom-sale')">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                F2
+            </span>
+            <span class="breadcrumb right_button"
+                  title="Print Draft Bill"
+                  t-on-click="trigger('print-receipt')">
+                <i class="fa fa-print" aria-hidden="true"></i>
+                F6
+            </span>
+            <span class="breadcrumb right_button"
+                  title="Quickly Paid with Cash"
+                  t-on-click="trigger('quickly-paid')">
+                <i class="fa fa-bolt" aria-hidden="true"></i>
+                F7
+            </span>
+            <span class="breadcrumb right_button"
+                  title="Show/Hide Cart"
+                  t-if="!env.isMobile"
+                  t-on-click="trigger('open-cart')">
+                <i class="fa fa-angle-double-down" aria-hidden="true"></i>
+                O
+            </span>
+            <span class="breadcrumb right_button"
+                  title="Add New Order"
+                  t-on-click="env.pos.add_new_order()">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                N
+            </span>
+            <span class="breadcrumb right_button"
+                  title="Remove Order"
+                  style="color: red"
+                  t-if="env.pos.config.allow_remove_order"
+                  t-on-click="trigger('remove-selected-order')">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+                ESC
+            </span>
+            <span class="breadcrumb right_button"
+                  title="Clear Cart Items"
+                  style="color: red"
+                  t-if="env.pos.config.allow_remove_line"
+                  t-on-click="trigger('clear-cart')">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+                F3
+            </span>
+            <span class="breadcrumb right_button"
+                  title="Remove Order"
+                  style="color: red"
+                  t-if="env.pos.config.allow_remove_line"
+                  t-on-click="trigger('remove-selected-line')">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+                <t t-esc="getKey"/>
+            </span>
+        </div>
+    </t>
+
+</templates>

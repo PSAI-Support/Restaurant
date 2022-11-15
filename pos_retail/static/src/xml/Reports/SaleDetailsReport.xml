@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="SaleSummaryOfCurrentSessionReport" owl="1">
+        <div class="pos-receipt" t-att-style="pos._getStyleOfReceipt()">
+            <t t-if="pos.company_logo_base64">
+                <img class="pos-receipt-logo" t-att-src="pos.company_logo_base64" alt="Logo"/>
+                <br/>
+            </t>
+            <t t-if="!pos.company_logo_base64" class="pos-receipt-center-align">
+                <h1 t-esc="pos.company.name" />
+                <br/>
+            </t>
+            <h6 style="font-weight: 900; text-align: center">Sales Summary of Session: <t t-esc='pos.pos_session.name' /></h6>
+            <div style="font-weight: 900; text-align: center">Sold Products</div>
+            <table class='summary-table report-small'>
+                <colgroup>
+                    <col width='55%'/>
+                    <col width='15%'/>
+                    <col width='20%'/>
+                    <col width='10%'/>
+                </colgroup>
+                <tr class="receipt-line">
+                    <td style="text-align: center">
+                        Items
+                    </td>
+                    <td style="text-align: center">
+                        Qty
+                    </td>
+                    <td style="text-align: right">
+                        Price
+                    </td>
+                    <td style="text-align: center">
+                        Disc
+                    </td>
+                </tr>
+                <t t-foreach="products" t-as="line" t-key="line.product_id">
+                    <tr class="receipt-line">
+                        <td style="text-align: center">
+                            <t t-esc="line.product_name.substr(0,20)" />
+                        </td>
+                        <td style="text-align: center">
+                            <t t-esc="Math.round(line.quantity * Math.pow(10, pos.dp['Product Unit of Measure'])) / Math.pow(10, pos.dp['Product Unit of Measure'])" />
+                        </td>
+                        <td style="text-align: right">
+                            <t t-esc="pos.format_currency_no_symbol(line.price_unit)" />
+                        </td>
+                        <td style="text-align: center">
+                            <t t-esc="line.discount" />
+                        </td>
+                    </tr>
+                </t>
+            </table>
+            <br/>
+            <div style="font-weight: 900; text-align: center">Payments</div>
+            <table class='summary-table report-small'>
+                <colgroup>
+                    <col width='60%'/>
+                    <col width='40%'/>
+                </colgroup>
+                <tr class="receipt-line">
+                    <td style="text-align: center">
+                        Method
+                    </td>
+                    <td style="text-align: center">
+                        Amount
+                    </td>
+                </tr>
+                <t t-foreach="payments" t-as="payment" t-key="payment.id">
+                    <tr class="receipt-line">
+                        <td style="text-align: center">
+                            <t t-esc="payment.name.substr(0,20)" />
+                        </td>
+                        <td style="text-align: right">
+                            <t t-esc="pos.format_currency_no_symbol(payment.total)" />
+                        </td>
+                    </tr>
+                </t>
+            </table>
+            <br/>
+
+            <div style="font-weight: 900; text-align: center">Taxes</div>
+            <table class='summary-table report-small'>
+                <colgroup>
+                    <col width='60%'/>
+                    <col width='40%'/>
+                </colgroup>
+                <tr class="receipt-line">
+                    <td style="text-align: center">
+                        Name
+                    </td>
+                    <td style="text-align: center">
+                        Amount
+                    </td>
+                </tr>
+                <t t-foreach="taxes" t-as="tax" t-key="tax.id">
+                    <tr class="receipt-line">
+                        <td style="text-align: center">
+                            <t t-esc="tax.name.substr(0,20)" />
+                        </td>
+                        <td style="text-align: right">
+                            <t t-esc="pos.format_currency_no_symbol(tax.tax_amount)" />
+                        </td>
+                    </tr>
+                </t>
+            </table>
+            <br/>
+            <div>
+                Total Paid:
+                <span t-esc="pos.format_currency_no_symbol(total_paid)" class="pos-receipt-right-align"/>
+            </div>
+
+            <br/>
+            <div class="pos-receipt-order-data">
+                <div>Date Time: <t t-esc="date" /></div>
+                <div>Employee</div>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <div>(Signature and Full Name)</div>
+                <div><t t-esc="pos.config.name" /></div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="RetailSaleDetailsReport" t-inherit="point_of_sale.SaleDetailsReport" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('pos-receipt')]" position="replace">
+            <t t-call="SaleSummaryOfCurrentSessionReport"/>
+        </xpath>
+    </t>
+
+</templates>

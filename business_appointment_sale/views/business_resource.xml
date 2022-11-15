@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="business_resource_view_form" model="ir.ui.view">
+        <field name="name">business.resource.form</field>
+        <field name="model">business.resource</field>
+        <field name="inherit_id" ref="business_appointment.business_resource_view_form"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="Sales">
+                    <group>
+                        <field name="default_team_id" options="{'no_create_edit': 1, 'no_quick_create': 1}"/>
+                        <field name="default_salesperson_id" options="{'no_create_edit': 1, 'no_quick_create': 1}"/>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+</odoo>

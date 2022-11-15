@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="business_resource_view_search" model="ir.ui.view">
+        <field name="name">business.resource.search.hr.bridge</field>
+        <field name="model">business.resource</field>
+        <field name="inherit_id" ref="business_appointment.business_resource_view_search"/>
+        <field name="arch" type="xml">
+            <field name="info_info_user_id" position="after">
+                <field name="employee_id"/>
+            </field>
+            <filter name="activities_upcoming_all" position="after">
+                <separator/>
+                <filter string="Human Kind" name="human_type" domain="[('resource_type', '=', 'user')]"/>
+                <filter string="Material Kind" name="material_type" domain="[('resource_type', '=', 'material')]"/>
+            </filter>
+            <filter name="group_resource_user_id" position="after">
+                <filter string="Employee" name="group_resource_employee_id" context="{'group_by': 'employee_id'}"/>
+            </filter>
+        </field>
+    </record>
+
+    <record id="business_resource_view_form" model="ir.ui.view">
+        <field name="name">business.resource.form.hr.bridge</field>
+        <field name="model">business.resource</field>
+        <field name="inherit_id" ref="business_appointment.business_resource_view_form"/>
+        <field name="arch" type="xml">
+            <field name="resource_type" position="attributes">
+                <attribute name="invisible">0</attribute>
+            </field>
+            <field name="resource_calendar_id" position="before">
+                <field name="employee_id"
+                       attrs="{'invisible': ['|', ('resource_type', '!=', 'user'), ('main_resource_id', '!=', False)]}"
+                       options="{'no_create_edit': 1, 'no_quick_create': 1}"
+                />
+            </field>
+            <field name="resource_calendar_id" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', ('employee_id', '!=', False), ('main_resource_id', '!=', False)], 'required': ['|', ('employee_id', '=', False), ('main_resource_id', '=', False)]}</attribute>
+            </field>
+            <button name="action_open_leaves" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', ('employee_id', '!=', False), ('main_resource_id', '!=', False)],}</attribute>
+            </button>
+        </field>
+    </record>
+
+</odoo>

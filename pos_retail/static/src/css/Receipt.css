@@ -1,0 +1,292 @@
+/*================= Receipt design ==============*/
+
+.pos-receipt-container {
+    top: 0;
+    left: 0;
+    visibility: visible !important;
+    background: white !important;
+    color: black !important;
+    font-size: 0.75em;
+    text-align: center;
+    direction: ltr;
+}
+
+.pos-receipt .orderline-detail {
+    border-bottom: 1px dotted;
+    font-size: 85%;
+    font-weight: 900
+}
+.pos .pos-receipt-container > div {
+    margin-top: 0px !important;
+    padding: 5px !important;
+    padding-top: 5px !important;
+    margin: 5px;
+    line-height: 20px;
+}
+
+.printer-label .pos-receipt-title {
+    line-height: 15px;
+    font-size: 100% !important;
+}
+
+.printer-label > div {
+    line-height: 15px;
+}
+
+.pos-receipt .pos-receipt-title {
+    line-height: 15px;
+}
+
+@media print {
+
+    .pos-search-bar {
+        display: none;
+    }
+
+    .debug-widget {
+        display: none;
+    }
+
+    .actions {
+        display: none;
+    }
+
+    body {
+        background: white;
+    }
+
+    body * {
+        visibility: unset !important;
+    }
+
+    .pos, .pos * {
+        position: unset !important;
+    }
+
+    .pos-topheader {
+        display: none !important;
+    }
+
+    .pos .top-content {
+        display: none;
+    }
+
+    .pos .pos-receipt {
+        margin: 0 !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        border: none !important;
+        font-size: unset;
+    }
+
+    .pos-receipt-container > div {
+        padding: 5px !important;
+        margin: 5px;
+        width: unset !important;
+    }
+
+    .pos-receipt .multiprint-flex {
+        display: inline-block !important;
+    }
+}
+
+.pos-receipt .orderlines > div {
+    line-height: 20px;
+}
+
+.pos-receipt .receipt-item td {
+    font-weight: 900 !important;
+    padding: 5px !important;
+    line-height: 30px !important;
+    font-size: 100% !important;
+}
+
+.pos-receipt-print {
+    /*width: 512px;*/
+    /*height: 0;*/
+    /*overflow: hidden;*/
+    /*position: absolute;*/
+    /*left: 0;*/
+    /*top: 0;*/
+    /*text-align: left;*/
+    /*direction: ltr;*/
+    /*font-size: 28px;*/
+    /*color: #000000;*/
+    /*font-family: Arial !important;*/
+}
+
+.pos-receipt .receipt-line td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 85% !important;
+    padding: 3px !important;
+    color: black !important;
+    border-bottom: 1px dotted;
+}
+
+.pos .product-line-name {
+    color: black;
+}
+
+.pos .receipt-row {
+    display: flex;
+    font-size: 0.9em;
+    line-height: 0.5em;
+}
+
+.pos .product-unit-name {
+    display: inline-block;
+    width: 100%;
+    font-size: 100%;
+    margin-left: 5px;
+}
+
+.pos .receipt-cell {
+    flex: 1;
+    color: black;
+    font-size: 0.85em;
+
+}
+
+.pos .receipt-orderlines {
+    width: 100% !important;
+}
+
+.pos-receipt .receipt-line {
+    color: black;
+    cursor: unset !important;
+}
+
+.pos-receipt > h3, .h3 {
+    margin: 0px !important;
+}
+
+.pos-receipt .product-line-name {
+    color: black;
+    padding-left: 0px;
+    font-size: 85% !important;
+    font-weight: 900 !important;
+}
+
+.pos-receipt .pos-receipt-right-align {
+    float: right;
+    text-align: right;
+}
+
+.pos-receipt .pos-receipt-center-align {
+    text-align: center;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+}
+
+.pos-receipt .text-center {
+    text-align: center !important;
+}
+
+.pos-receipt .text-left {
+    text-align: left !important;
+}
+
+.pos-receipt .text-right {
+    text-align: right !important;
+}
+
+.pos-receipt .text-bold {
+    font-weight: 900 !important;
+}
+
+.pos-receipt .receipt-line:hover {
+    background: unset !important;
+}
+
+.pos-receipt .pos-receipt-left-padding {
+    padding-left: 0em;
+    line-height: 1.5em;
+}
+
+.pos-receipt .orderline-product-name {
+    line-height: 1.5em;
+    font-size: 0.9em;
+}
+
+.pos-receipt .pos-receipt-logo {
+    min-width: 2.5em;
+    max-width: 6em;
+    max-height: 4em;
+}
+
+.pos-receipt .center-page {
+    text-align: center;
+}
+
+.pos-receipt .left-page {
+    text-align: left !important;
+}
+
+.pos-receipt .pos-receipt-order-data {
+    display: inline-block;
+    width: 100%;
+}
+
+.pos-receipt .pos-receipt-amount {
+    padding-top: 0.5em !important;
+    padding-bottom: 0.5em !important;
+    font-weight: 900 !important;
+    padding-left: 0em;
+}
+
+.pos-receipt .pos-receipt-title {
+    font-weight: bold;
+    font-size: 125%;
+    text-align: center;
+}
+
+.pos-receipt .pos-receipt-header {
+    font-size: 125%;
+    text-align: center;
+}
+
+.pos .qrcode {
+    width: 100%;
+    display: flex;
+}
+
+.pos .qrcode > img {
+    justify-content: center;
+    margin: auto;
+    padding-bottom: 10px;
+}
+
+.pos-receipt .pos-order-receipt-cancel {
+    color: black;
+}
+
+.pos-payment-terminal-receipt {
+    text-align: center;
+    font-size: 90%;
+}
+
+.pos-receipt .amount_total {
+    font-size: 125%;
+}
+
+.pos-receipt .header_barcode {
+    text-align: center;
+    height: 5em;
+    width: 15em;
+    margin-left: -5em;
+}
+
+.pos-receipt .footer_barcode {
+    display: block;
+    height: 20mm;
+    width: 40mm;
+    margin: auto;
+    vertical-align: middle;
+}
+
+.pos-receipt .receipt_line_image {
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 65%;
+}

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="view_report_pos_order_pivot" model="ir.ui.view">
+        <field name="name">report.pos.order.pivot</field>
+        <field name="inherit_id" ref="point_of_sale.view_report_pos_order_pivot"/>
+        <field name="model">report.pos.order</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_categ_id']" position="before">
+                <field name="config_id" type="row"/>
+                <field name="seller_id" type="row"/>
+                <field name="payment_method_id" type="row"/>
+<!--                <field name="analytic_account_id" type="row"/>-->
+<!--                <field name="pos_branch_id" type="row"/>-->
+            </xpath>
+            <xpath expr="//field[@name='price_total']" position="after">
+                <field name="payment_total" type="measure"/>
+                <field name="customer_count" type="measure"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_report_pos_order_search" model="ir.ui.view">
+        <field name="name">report.pos.order.search</field>
+        <field name="inherit_id" ref="point_of_sale.view_report_pos_order_search"/>
+        <field name="model">report.pos.order</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='config_id']" position="before">
+                <field name="pos_branch_id" type="row"/>
+                <field name="seller_id" type="row"/>
+                <field name="analytic_account_id" type="row"/>
+                <field name="table_id" type="row"/>
+                <field name="floor_id" type="row"/>
+                <field name="payment_method_id" type="row"/>
+                <field name="product_categ_id" type="row"/>
+            </xpath>
+            <xpath expr="//filter[@name='pos']" position="before">
+                <filter string="Customer" name="customer" context="{'group_by': 'partner_id'}"/>
+                <filter string="Branch" name="branch" context="{'group_by': 'pos_branch_id'}"/>
+                <filter string="Seller" name="seller" context="{'group_by': 'seller_id'}"/>
+                <filter string="Analytic Account" name="analytic_account"
+                        context="{'group_by': 'analytic_account_id'}"/>
+                <filter string="Table" name="filter_by_table"
+                        context="{'group_by': 'table_id'}"/>
+                <filter string="Floor" name="filter_by_floor"
+                        context="{'group_by': 'floor_id'}"/>
+                <filter string="POS Category" name="filter_by_product_categ_id"
+                        context="{'group_by': 'product_categ_id'}"/>
+                <filter string="Payment Method" name="filter_by_payment"
+                        context="{'group_by': 'payment_method_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>

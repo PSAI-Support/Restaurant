@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="ClosePosPopup" t-inherit="point_of_sale.ClosePosPopup" t-inherit-mode="extension" owl="1">
+        <xpath expr="//footer/div[3]" position="replace">
+            <div class="button" t-if="!env.pos.config.disable_close_session"
+                 t-att-class="{'disabled': !canCloseSession()}" t-on-click="closeSession()">Close Session</div>
+        </xpath>
+    </t>
+
+</templates>
+

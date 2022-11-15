@@ -1,0 +1,105 @@
+# -*- coding: utf-8 -*-
+from odoo import api, fields, models, _
+from datetime import datetime, timedelta
+import logging
+
+_logger = logging.getLogger(__name__)
+
+class AccountMove(models.Model):
+
+    _inherit = "account.move"
+
+    add_credit = fields.Boolean(
+        'Add Credit',
+        help='If checked, Credit Note Amount total will plus to customer credit card'
+    )
+    origin = fields.Char('Source Origin')
+    pos_branch_id = fields.Many2one('pos.branch', string='Branch', readonly=1)
+    pos_session_id = fields.Many2one('pos.session', string='POS Session', readonly=1)
+
+    @api.model
+    def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None):
+        context = self._context.copy()
+        if context.get('pos_config_id', None):
+            config = self.env['pos.config'].browse(context.get('pos_config_id'))
+            if config.load_invoices_limit > 0:
+                limit = config.load_invoices_limit
+            else:
+                limit = 100
+            order = 'id DESC'
+        return super().search_read(domain=domain, fields=fields, offset=offset, limit=limit, order=order)
+
+    @api.model
+    def create(self, vals):
+        context = self._context.copy()
+        if context.get('pos_session_id', None):
+            vals.update({
+                'pos_session_id': context.get('pos_session_id'),
+                'origin': 'Point Of Sale'
+            })
+            session = self.env['pos.session'].sudo().browse(context.get('pos_session_id'))
+            if session and session.config_id and session.config_id.pos_branch_id:
+                vals.update({
+                    'pos_branch_id': session.config_id.pos_branch_id.id
+                })
+        if not vals.get('pos_branch_id'):
+            vals.update({'pos_branch_id': self.env['pos.branch'].sudo().get_default_branch()})
+        if not vals.get('company_id', None):
+            vals.update({'company_id': self.env.user.company_id.id})
+        move = super(AccountMove, self).create(vals)
+        if move.pos_session_id and move.pos_session_id.config_id.analytic_account_id and move.line_ids:
+            move.line_ids.write({'analytic_account_id': move.pos_session_id.config_id.analytic_account_id.id})
+        return move
+
+    def write(self, vals):
+        credit_object = self.env['res.partner.credit']
+        for account_move in self:
+            credit_exist = credit_object.search([('move_id', '=', account_move.id)])
+            if account_move.add_credit and vals.get('state', None) == 'posted':
+                if not credit_exist:
+                    credit_object.create({
+                        'name': account_move.name,
+                        'type': 'plus',
+                        'amount': account_move.amount_total,
+                        'move_id': account_move.id,
+                        'partner_id': account_move.partner_id.id,
+                        'active': True
+                    })
+                else:
+                    credit_exist.write({
+                        'name': account_move.name,
+                        'type': 'plus',
+                        'amount': account_move.amount_total,
+                        'move_id': account_move.id,
+                        'partner_id': account_move.partner_id.id,
+                        'active': True
+                    })
+            if vals.get('state', None) in ['draft', 'cancel']:
+                credit_object.search([('move_id', '=', account_move.id)]).write({'active': False})
+            if vals.get('state', None) == 'posted':
+                _logger.info('[Account Move %s] posting' % account_move.id)
+        res = super(AccountMove, self).write(vals)
+        for move in self:
+            if move.pos_session_id and move.pos_session_id.config_id.analytic_account_id and move.line_ids:
+                move.line_ids.write({'analytic_account_id': move.pos_session_id.config_id.analytic_account_id.id})
+        return res
+
+class AccountMoveLine(models.Model):
+    _inherit = "account.move.line"
+
+    pos_branch_id = fields.Many2one(
+        'pos.branch',
+        string='Branch',
+        related='move_id.pos_branch_id',
+        store=True,
+        readonly=1
+    )
+
+    # TODO: why could not call create ??? If we remove comments here, pos session could not closing
+    # TODO: dont reopen-comments codes
+    # @api.model
+    # def create(self, vals):
+    #     if not vals.get('pos_branch_id'):
+    #         vals.update({'pos_branch_id': self.env['pos.branch'].sudo().get_default_branch()})
+    #     move_line = super(AccountMoveLine, self).create(vals)
+    #     return move_line

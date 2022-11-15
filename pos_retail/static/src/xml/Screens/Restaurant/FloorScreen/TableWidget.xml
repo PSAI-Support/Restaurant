@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="TableWidget" t-inherit="pos_restaurant.TableWidget" t-inherit-mode="extension" owl="1">
+        <xpath expr="//span[hasclass('label')]" position="before">
+            <t t-if='getCountItemsWaitingDelivery'>
+                <span class="order-waiting-delivery"
+                      title="Waiting you delivery products to customers">
+                    <t t-esc='getCountItemsWaitingDelivery'/>
+                </span>
+            </t>
+            <t t-if="props.table.locked">
+                <i class="fa fa-lock"
+                   title="Order of table locked"
+                   style="color: red"/>
+            </t>
+            <t t-if="_hasPrePrintReceipt">
+                <i class="fa fa-print"
+                   title="Order of table have pre-print bill"
+                   style="color: red; top: 0px; left: 75%; position: absolute; background: #fff; padding: 3px; border-radius: 65%;"/>
+            </t>
+        </xpath>
+        <xpath expr="//span[hasclass('label')]" position="inside">
+            <t t-if="checkedIn">
+                <span class="table-checked-in"><i class="fa fa-calendar-check-o" aria-hidden="true"></i> <t t-esc="tableInformation['checkedIn']"/></span>
+                <span class="table-amount"><i class="fa fa-shopping-basket" aria-hidden="true"></i> <t t-esc="env.pos.format_currency(tableInformation['amount'])"/></span>
+            </t>
+        </xpath>
+        <xpath expr="//div[hasclass('table')]" position="attributes">
+            <attribute name="t-att-style">getStyletable</attribute>
+        </xpath>
+    </t>
+
+</templates>

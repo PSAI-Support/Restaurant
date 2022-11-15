@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="FloorScreen" t-inherit="pos_restaurant.FloorScreen" t-inherit-mode="extension" owl="1">
+        <xpath expr="//TableWidget" position="replace">
+            <TableWidget t-if="table.id !== state.selectedTableId" table="table" floor_id="state.selectedFloorId"/>
+        </xpath>
+    </t>
+
+</templates>

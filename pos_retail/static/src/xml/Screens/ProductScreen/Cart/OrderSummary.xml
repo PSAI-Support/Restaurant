@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="OrderSummary" t-inherit="point_of_sale.OrderSummary" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('line')]" position="after">
+            <ClientInformation partner="order.get_client()"
+                               currentOrder="order"
+                               t-if="order and order.get_client() and !env.session.restaurant_order and !env.isMobile"/>
+            <OrderSummaryExtend t-if="!env.session.restaurant_order and !env.isMobile"/>
+            <PointsSummary
+                    t-if="env.pos.retail_loyalty and !env.session.restaurant_order and !env.isMobile"/>
+            <div t-if="itemsInCart" class="pos-cart">
+                <table class='summary-table' t-if="!env.isMobile"
+                       style="width: 100%; display: inline-table">
+                    <colgroup>
+                        <col width='20%'/>
+                        <col width='20%' t-if="env.pos.config.display_tax_orderline"/>
+                        <col width='20%'/>
+                        <col width='20%' t-if="env.pos.config.display_tax_orderline"/>
+                        <col width='20%'/>
+                    </colgroup>
+                    <tr class="receipt-line" style="cursor: unset">
+                        <td style="text-align: center; color: blue; cursor: pointer" t-on-click="trigger('info-cart')">
+                            Cart Summary
+                            <i class="fa fa-info"/>
+                        </td>
+                        <td style="text-align: center" t-if="env.pos.config.display_tax_orderline">
+                            W/o Taxes: <t t-esc="state.totalWithOutTaxes"/>
+                        </td>
+                        <td style="text-align: center; color: blue; cursor: pointer"
+                                t-on-click="setDiscount">
+                            Disc: - <t t-esc="state.discount"/>
+                        </td>
+                        <td style="text-align: center; color: blue; cursor: pointer" t-if="env.pos.config.display_tax_orderline"
+                                t-on-click="setTaxes">
+                            Taxes: + <t t-esc="state.tax"/>
+                        </td>
+                        <td style="text-align: center">
+                            Items/Qty:
+                            <t t-esc="state.totalItems"/>
+                                <span> / </span>
+                                <t t-esc="state.totalQuantities"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </xpath>
+        <xpath expr="//div[hasclass('line')]" position="replace">
+            <div class="line">
+                <div class="entry total">
+                    <span class="badge">Total: </span>
+                    <span class="value">
+                        <t t-esc="state.total" />
+                    </span>
+                    <div t-if="state.tax" class="subentry">
+                        Taxes:
+                        <span class="value">
+                            <t t-esc="state.tax" />
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </t>
+
+</templates>

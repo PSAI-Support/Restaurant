@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="RetailHeaderButton" owl="1">
+        <div class="header-button" t-on-click="onClick">
+            <span><i class="fa fa-sign-out" role="img"/></span>
+            <t t-if="!env.isMobile">Close</t>
+        </div>
+    </t>
+
+</templates>

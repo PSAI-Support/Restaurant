@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="CloseSessionExtend" owl="1">
+        <div class="ticket-button" t-on-click="onClick">
+            <i class="fa fa-money" aria-hidden="true"></i>
+            <span>Close Session Extend</span>
+        </div>
+    </t>
+
+</templates>
